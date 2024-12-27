@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宋词知识测试</title>
+    <link rel="stylesheet" href="css/yy.css">
+    <style>
+        body {
+            background-image: url('web01.jpg');
+            background-size: cover;
+            color: black;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .content {
+            width: 60%;
+            max-width: 800px;
+            padding: 40px;
+            /* 去掉灰色背景板 */
+            /* background-color: rgba(0, 0, 0, 0.5); */
+            border-radius: 0; /* 去掉边框 */
+            box-shadow: none; /* 去掉阴影 */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin: 20px 0;
+            display: none;
+            font-size: 2rem;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .answer {
+            margin: 50px 0;
+            font-size: 2rem;
+        }
+
+        .answer input {
+            margin-right: 10px;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+        }
+
+        .nav {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav a.active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+    <script>
+        // 定义正确答案
+        const correctAnswers = ['A', 'C', 'C', 'C', 'A'];
+        let userAnswers = [];
+        let answered = [false, false, false, false, false]; // 用于记录是否已经答过
+
+        function checkAnswer(questionIndex) {
+            // 获取当前选择的答案
+            const selectedAnswer = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+            if (!selectedAnswer) return; // 如果没有选择答案，则不进行处理
+
+            const answerValue = selectedAnswer.value;
+            const resultElement = document.getElementById(`result${questionIndex}`);
+
+            // 如果用户还没有答过
+            if (!answered[questionIndex]) {
+                answered[questionIndex] = true; // 标记已经答过
+
+                // 判断答案是否正确
+                if (answerValue === correctAnswers[questionIndex]) {
+                    resultElement.innerHTML = "<span style='color: green;'>回答正确！</span>";
+                    userAnswers[questionIndex] = true;
+                } else {
+                    resultElement.innerHTML = `<span style='color: red;'>回答错误！正确答案是：${correctAnswers[questionIndex]}</span>`;
+                    userAnswers[questionIndex] = false;
+                }
+            }
+
+            // 显示下一个按钮
+            const nextButton = document.getElementById(`nextButton${questionIndex}`);
+            if (nextButton) nextButton.style.display = "inline-block";
+        }
+
+        function showQuestion(questionIndex) {
+            const allQuestions = document.querySelectorAll('.question');
+            allQuestions.forEach(question => question.classList.remove('active'));
+
+            const currentQuestion = document.getElementById(`question${questionIndex}`);
+            currentQuestion.classList.add('active');
+
+            // 更新题号的显示状态
+            const navLinks = document.querySelectorAll('.nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            navLinks[questionIndex].classList.add('active');
+        }
+
+        function finishQuiz() {
+            // 计算总成绩
+            const correctCount = userAnswers.filter(answer => answer === true).length;
+            localStorage.setItem('correctCount', correctCount);
+
+            // 跳转到结果页面
+            window.location.href = 'ccc.html';
+        }
+
+        window.onload = function() {
+            showQuestion(0); // 默认显示第一题
+        };
+    </script>
+</head>
+
+<body>
+    <a href="javascript:history.back()" class="back-button">返回</a>
+    <div class="content">
+        <h1>宋词知识测试</h1>
+
+        <div id="question0" class="question">
+            <h3>1. “三十功名尘与土”的后一句是？</h3>
+            <div class="answer">
+                <input type="radio" name="question0" value="A"> A. 八千里路云和月<br>
+                <input type="radio" name="question0" value="B"> B. 笑谈渴饮匈奴血<br>
+                <input type="radio" name="question0" value="C"> C. 起来独自绕阶行<br>
+            </div>
+            <button class="button" onclick="checkAnswer(0)">提交</button>
+            <div id="result0" class="result"></div>
+            <button id="nextButton0" class="button" style="display: none;" onclick="showQuestion(1)">下一题</button>
+        </div>
+
+        <div id="question1" class="question">
+            <h3>2. “不知天上宫阙”的后一句是？</h3>
+            <div class="answer">
+                <input type="radio" name="question1" value="A"> A. 我欲乘风归去<br>
+                <input type="radio" name="question1" value="B"> B. 高处不胜寒<br>
+                <input type="radio" name="question1" value="C"> C. 今夕是何年<br>
+            </div>
+            <button class="button" onclick="checkAnswer(1)">提交</button>
+            <div id="result1" class="result"></div>
+            <button id="nextButton1" class="button" style="display: none;" onclick="showQuestion(2)">下一题</button>
+        </div>
+
+        <div id="question2" class="question">
+            <h3>3. “两重心字罗衣”的前一句是？</h3>
+            <div class="answer">
+                <input type="radio" name="question2" value="A"> A. 床前明月光<br>
+                <input type="radio" name="question2" value="B"> B. 江东子弟多才俊<br>
+                <input type="radio" name="question2" value="C"> C. 记得小萍初见<br>
+            </div>
+            <button class="button" onclick="checkAnswer(2)">提交</button>
+            <div id="result2" class="result"></div>
+            <button id="nextButton2" class="button" style="display: none;" onclick="showQuestion(3)">下一题</button>
+        </div>
+
+        <div id="question3" class="question">
+            <h3>4. “两情若是久长时”的后一句是？</h3>
+            <div class="answer">
+                <input type="radio" name="question3" value="A"> A. 银汉迢迢暗度<br>
+                <input type="radio" name="question3" value="B"> B. 便胜却人间无数<br>
+                <input type="radio" name="question3" value="C"> C. 又岂在朝朝暮暮<br>
+            </div>
+            <button class="button" onclick="checkAnswer(3)">提交</button>
+            <div id="result3" class="result"></div>
+            <button id="nextButton3" class="button" style="display: none;" onclick="showQuestion(4)">下一题</button>
+        </div>
+
+        <div id="question4" class="question">
+            <h3>5. “海内存知己”的后一句是？</h3>
+            <div class="answer">
+                <input type="radio" name="question4" value="A"> A. 天涯若比邻<br>
+                <input type="radio" name="question4" value="B"> B. 我劝天公重抖擞<br>
+                <input type="radio" name="question4" value="C"> C. 无可奈何花落去<br>
+            </div>
+            <button class="button" onclick="checkAnswer(4)">提交</button>
+            <div id="result4" class="result"></div>
+            <button id="nextButton4" class="button" style="display: none;" onclick="finishQuiz()">完成测试</button>
+        </div>
+
+        <div class="nav">
+            <a href="javascript:showQuestion(0)" class="active">第1题</a>
+            <a href="javascript:showQuestion(1)">第2题</a>
+            <a href="javascript:showQuestion(2)">第3题</a>
+            <a href="javascript:showQuestion(3)">第4题</a>
+            <a href="javascript:showQuestion(4)">第5题</a>
+        </div>
+    </div>
+</body>
+
+</html>

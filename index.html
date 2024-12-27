@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Image Animation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- 引入 jQuery -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            overflow: hidden;
+            position: relative;
+            background-image: url('web01.jpg');
+            background-size: cover;
+        }
+
+        .sliding-image {
+            position: absolute;
+            top: -300px; 
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 1500px;
+            max-height: 500px;
+            opacity: 0;
+            transition: top 2s ease-in-out, opacity 2s ease-in-out;
+        }
+
+        .action-button {
+            position: absolute;
+            bottom: 20%; 
+            left: 50%;
+            transform: translate(-50%, 50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: darkgreen;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+
+        .active {
+            top: 20%; 
+            opacity: 1;
+        }
+
+        .slide-in-text {
+            position: absolute;
+            top: 10%;
+            transform: translateY(-50%);
+            right: -100%; 
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            animation: slideIn 3s forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                right: -100%;
+            }
+            100% {
+                right: 50%;
+                transform: translateX(50%) translateY(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="aaa.jpg" alt="Sliding Image" class="sliding-image">
+    <div class="slide-in-text">小朋友们，我们来答题目吧</div>
+    <button class="action-button">开始答题</button>
+
+    <script>
+        $(window).on('load', function() {
+            setTimeout(function() {
+                $('.sliding-image').addClass('active');
+            }, 100);
+        });
+
+        $('.action-button').on('click', function() {
+            window.location.href = 'bbb.html';
+        });
+    </script>
+</body>
+</html>
